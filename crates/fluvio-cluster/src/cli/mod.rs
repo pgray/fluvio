@@ -94,6 +94,10 @@ pub enum ClusterCmd {
     /// Shutdown cluster processes without deleting data
     #[command(name = "shutdown")]
     Shutdown(ShutdownOpt),
+
+    /// Alias for shutdown
+    #[command(name = "stop")]
+    Stop(ShutdownOpt),
 }
 
 impl ClusterCmd {
@@ -167,6 +171,9 @@ impl ClusterCmd {
                 status.process(target).await?;
             }
             Self::Shutdown(opt) => {
+                opt.process().await?;
+            }
+            Self::Stop(opt) => {
                 opt.process().await?;
             }
         }
